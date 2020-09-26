@@ -1,0 +1,9 @@
+package com.fullstactexample.demo.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.fullstactexample.demo.model.Employee;
+
+public interface EmployeeeRepository extends JpaRepository<Employee, Integer>{
+	
+}

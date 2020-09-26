@@ -1,0 +1,26 @@
+package com.fullstactexample.demo.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fullstactexample.demo.model.Employee;
+import com.fullstactexample.demo.repository.EmployeeeRepository;
+
+@RestController
+@RequestMapping(value = "/api/v1/")
+public class EmployeeController {
+
+	@Autowired
+	private EmployeeeRepository repo;
+	
+	// get all employee
+	@GetMapping(value = "employees")
+	public List<Employee> getAllEmployee(){
+		return repo.findAll();
+	}
+	
+}

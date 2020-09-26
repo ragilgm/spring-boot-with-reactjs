@@ -1,0 +1,5 @@
+package com.fullstactexample.demo.repository;
+
+public class EmployeeeRepository {
+
+}

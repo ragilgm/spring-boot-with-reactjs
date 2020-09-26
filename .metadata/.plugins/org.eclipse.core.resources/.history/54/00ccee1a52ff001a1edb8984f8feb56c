@@ -1,0 +1,5 @@
+package com.fullstactexample.demo.Exception;
+
+public class ResouceNotFoundException extends RuntimeException{
+
+}

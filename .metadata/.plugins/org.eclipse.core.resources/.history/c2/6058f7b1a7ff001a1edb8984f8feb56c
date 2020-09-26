@@ -1,0 +1,64 @@
+package com.fullstactexample.demo.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.ResourceAccessException;
+
+import com.fullstactexample.demo.Exception.ResouceNotFoundException;
+import com.fullstactexample.demo.model.Employee;
+import com.fullstactexample.demo.repository.EmployeeeRepository;
+
+
+//@CrossOrigin(origins = "http://localhost:3000")
+@RestController
+@RequestMapping(value = "/api/v1/")
+public class EmployeeController {
+
+	@Autowired
+	private EmployeeeRepository repo;
+	
+	// get all employee
+	@GetMapping(value = "employees")
+	public List<Employee> getAllEmployee(){
+		return repo.findAll();
+	}
+	
+	// get employee by id
+	@GetMapping(value = "employees/{id}")
+	public ResponseEntity<?> getEmployeeById(@PathVariable("id") int id) {
+		Employee employee = repo.findById(id).orElseThrow(()-> new ResouceNotFoundException("employee not exist with id "+id));
+		return ResponseEntity.ok(employee);
+	}
+	
+	// add employee
+	@PostMapping(value = "employees")
+	public Employee saveEmployee(@RequestBody Employee employee) {
+		return repo.save(employee);
+	}
+	
+	@PutMapping(value = "employees/{id}")
+	public Employee updateEmployee(@PathVariable int id, @RequestBody Employee employee) {
+		Employee employeData = repo.findById(id).orElseThrow(()->  new ResourceAccessException("employee not exist with id "+id));
+		employeData.setEmail(employee.getEmail());
+		employeData.setFirstName(employee.getFirstName());
+		employeData.setLastName(employee.getLastName());
+		return repo.save(employeData);
+	}
+	
+	@DeleteMapping(value = "employees/{id}")
+	public ResponseEntity<?> deleteEmployees(@PathVariable int id) {
+		return repo.deleteById(id);
+	}
+	
+}
